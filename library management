@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_BOOKS 5
+#define MAX_LENGTH 100
+
+// Structure to hold book details
+struct Book {
+    char title[MAX_LENGTH];
+    char author[MAX_LENGTH];
+};
+
+void displayBookDetails(struct Book book) {
+    printf("Book Title: %s\n", book.title);
+    printf("Book Author: %s\n", book.author);
+}
+
+int main() {
+    struct Book library[MAX_BOOKS];
+    struct Book newBook;
+    int bookCount = 0;
+    
+    // Adding books to the library
+    printf("Enter details for new books (Max %d books):\n", MAX_BOOKS);
+    while (bookCount < MAX_BOOKS) {
+        printf("\nEnter book title: ");
+        fgets(newBook.title, MAX_LENGTH, stdin);
+        newBook.title[strcspn(newBook.title, "\n")] = 0;  // Remove trailing newline
+        
+        printf("Enter book author: ");
+        fgets(newBook.author, MAX_LENGTH, stdin);
+        newBook.author[strcspn(newBook.author, "\n")] = 0;  // Remove trailing newline
+
+        // Check if the book already exists in the library
+        int exists = 0;
+        for (int i = 0; i < bookCount; i++) {
+            if (strcmp(library[i].title, newBook.title) == 0) {
+                printf("The book '%s' already exists in the library!\n", newBook.title);
+                exists = 1;
+                break;
+            }
+        }
+
+        if (!exists) {
+            // Add new book to library
+            library[bookCount] = newBook;
+            bookCount++;
+
+            // String concatenation: Combine title and author into a full description
+            char description[MAX_LENGTH];
+            strcpy(description, newBook.title);  // Copy title into description
+            strcat(description, " by ");         // Concatenate "by"
+            strcat(description, newBook.author); // Concatenate author name
+            printf("New book added: %s\n", description);
+        }
+
+        // Option to stop adding books or continue
+        char choice;
+        printf("\nDo you want to add another book? (y/n): ");
+        scanf(" %c", &choice);
+        getchar();  // to consume newline character after entering 'y' or 'n'
+        if (choice == 'n' || choice == 'N') {
+            break;
+        }
+    }
+
+    // Display the details of all books in the library
+    printf("\nLibrary Collection:\n");
+    for (int i = 0; i < bookCount; i++) {
+        displayBookDetails(library[i]);
+    }
+
+    // String length example: Calculate the length of each book title
+    printf("\nLengths of Book Titles:\n");
+    for (int i = 0; i < bookCount; i++) {
+        printf("Length of '%s' is %lu characters.\n", library[i].title, strlen(library[i].title));
+    }
+
+    return 0;
+}
+
