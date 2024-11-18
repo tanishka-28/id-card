@@ -1,0 +1,45 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_LENGTH 100
+
+typedef struct {
+    char name[MAX_LENGTH];
+    char id[MAX_LENGTH];
+    char department[MAX_LENGTH];
+    char uniqueIdentifier[MAX_LENGTH * 2];
+} IDCard;
+
+void displayIDCard(IDCard card) {
+    printf("\n=====================\n");
+    printf("      ID CARD       \n");
+    printf("=====================\n");
+    printf("Name: %s\n", card.name);
+    printf("ID Number: %s\n", card.id);
+    printf("Department: %s\n", card.department);
+    printf("Unique Identifier: %s\n", card.uniqueIdentifier);
+    printf("=====================\n");
+}
+
+int main() {
+    IDCard myCard;
+
+    printf("Enter your name: ");
+    fgets(myCard.name, sizeof(myCard.name), stdin);
+    myCard.name[strcspn(myCard.name, "\n")] = 0;
+
+    printf("Enter your ID number: ");
+    fgets(myCard.id, sizeof(myCard.id), stdin);
+    myCard.id[strcspn(myCard.id, "\n")] = 0;
+
+    printf("Enter your department: ");
+    fgets(myCard.department, sizeof(myCard.department), stdin);
+    myCard.department[strcspn(myCard.department, "\n")] = 0;
+
+    strcpy(myCard.uniqueIdentifier, myCard.name);
+    strcat(myCard.uniqueIdentifier, "_"); 
+    strcat(myCard.uniqueIdentifier, myCard.department);
+    displayIDCard(myCard);
+
+    return 0;
+}
